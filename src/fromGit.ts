@@ -1,4 +1,5 @@
-type FIXME = string;
+type FIXME = Order['state'];
+
 
 type Sum = {
   sum: number;
