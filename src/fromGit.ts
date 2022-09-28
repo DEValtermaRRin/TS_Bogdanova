@@ -1,35 +1,34 @@
 type FIXME = string;
 
+type Sum = {
+  sum: number;
+};
+
+type WorkerId = Sum & { workerId: number };
+type SuppliesSum = WorkerId & { suppliesSum: number };
+type ProduceEstimate = SuppliesSum & { produceEstimate: Date };
+type FullfillmentDate = ProduceEstimate & { fullfillmentDate: Date };
+
 type Order =
   | {
       state: 'initial';
-      sum: number;
+      initial: Sum;
     }
   | {
       state: 'inWork';
-      sum: number;
-      workerId: number;
+      inWork: WorkerId;
     }
   | {
       state: 'buyingSupplies';
-      sum: number;
-      workerId: number;
-      suppliesSum: number;
+      buyingSupplies: SuppliesSum;
     }
   | {
       state: 'producing';
-      sum: number;
-      workerId: number;
-      suppliesSum: number;
-      produceEstimate: Date;
+      producing: ProduceEstimate;
     }
   | {
       state: 'fullfilled';
-      sum: number;
-      workerId: number;
-      suppliesSum: number;
-      produceEstimate: Date;
-      fullfillmentDate: Date;
+      fullfilled: FullfillmentDate;
     };
 
 export const getOrderState = (order: Order): FIXME => order.state;
