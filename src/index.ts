@@ -3,9 +3,22 @@ import { renderSearchStubBlock } from './search-results.js';
 import { renderUserBlock } from './user.js';
 import { renderToast } from './lib.js';
 
+let dateIn: string, dateOut: string;
+const userInDate = document.querySelector('#check-in-date') as HTMLInputElement;
+const userOutDate = document.querySelector(
+  '#check-out-date',
+) as HTMLInputElement;
+
+userInDate?.addEventListener('change', () => {
+  dateIn = userInDate.value;
+});
+userOutDate?.addEventListener('change', () => {
+  dateOut = userOutDate.value;
+});
+
 window.addEventListener('DOMContentLoaded', () => {
   renderUserBlock(0, 'Wade Warren', './img/avatar.png');
-  renderSearchFormBlock('2022-10-12', '2022-11-15');
+  renderSearchFormBlock(dateIn, dateOut);
   renderSearchStubBlock();
   renderToast(
     {
