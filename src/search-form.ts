@@ -1,6 +1,20 @@
-import { renderBlock } from './lib.js'
+import { renderBlock } from './lib.js';
+import {DateTime} from 'luxon';
 
-export function renderSearchFormBlock () {
+
+const regDate =
+  /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/gi;
+
+const curDate = DateTime.toString()
+
+export function renderSearchFormBlock(
+  checkInDate: string,
+  checkOutDate: string,
+) {
+
+  checkInDate >= curDate && checkInDate.match(regDate) ? checkInDate : curDate;
+  checkOutDate > checkInDate && checkOutDate.match(regDate) ? checkOutDate : curDate + 3
+
   renderBlock(
     'search-form-block',
     `
@@ -15,16 +29,16 @@ export function renderSearchFormBlock () {
           <!--<div class="providers">
             <label><input type="checkbox" name="provider" value="homy" checked /> Homy</label>
             <label><input type="checkbox" name="provider" value="flat-rent" checked /> FlatRent</label>
-          </div>--!>
+          </div>-->
         </div>
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value="2021-05-11" min="2021-05-11" max="2021-06-30" name="checkin" />
+            <input id="check-in-date" type="date" value="${checkInDate}" min="${curDate}" max="2021-06-30" name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value="2021-05-13" min="2021-05-11" max="2021-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value="${checkOutDate}" min="2021-05-11" max="2021-06-30" name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
@@ -36,6 +50,6 @@ export function renderSearchFormBlock () {
         </div>
       </fieldset>
     </form>
-    `
-  )
+    `,
+  );
 }
